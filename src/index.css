@@ -8,7 +8,71 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.container {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  width: 90vw;
+  height: 100vh;
+}
+
+.topBox {
+  width: 90vw;
+  height: 30vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.employeeBox {
+  width: 50vw;
+  height: 30vh;
+}
+
+.buttonBox {
+  width: 50vw;
+  height: 30vh;
+}
+
+.middleBox {
+  width: 90vw;
+  height: 50vh;
+  display: flex;
+}
+
+.scoreSection {
+  width: 80vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.managerList {
+  width: 10vw;
+  height: 50vh;
+}
+
+.titleBox {
+  width: 80vw;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.titleBox h2 {
+  width: 26vw;
+  height: 10vh;
+}
+
+.radioBox {
+  width: 80vw;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.radioBox div {
+  width: 26vw;
+  height: 10vh;
 }
