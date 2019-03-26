@@ -33,7 +33,7 @@ class SearchDialog extends Component {
 
   searchClick = () => {
     const search = this.state.searchField;
-    fetch(`http://localhost:5000/employee/${search}`)
+    fetch(`http://localhost:5000/employees/${search}`)
       .then(res => {
         return res.json();
       })

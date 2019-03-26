@@ -7,10 +7,21 @@ import RadioSet from "../RadioSet";
 import "./App.css";
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {};
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      impact: [],
+      potCat: [],
+      potScore: []
+    };
+  }
+
+  handleRadioChange = event => {
+    const { value } = event.target;
+    this.setState(() => ({
+      score: parseInt(value)
+    }));
+  };
 
   render() {
     return (
