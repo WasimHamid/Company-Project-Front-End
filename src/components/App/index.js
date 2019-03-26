@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
     this.state = {
       sessionResponse: "",
-      query: ""
+      query: "",
+      staff: []
     };
   }
 
@@ -23,12 +24,16 @@ class App extends Component {
   handleSearchChange = () => {
     fetch(`${API}/employees`)
       .then(res => res.json())
-      .then(res =>
+      .then(res => {
         this.setState({
-          query: this.state.staffNumber
-        })
-      );
+          staff: res.payload.employees
+        });
+      });
   };
+
+  renderEmployee() {
+    if (this.state.staff.map(member => <div>{member.staffNumber}</div>));
+  }
 
   render() {
     return (
@@ -37,9 +42,15 @@ class App extends Component {
           <button onClick={() => this.callSession}>Start New Session</button>
           <SearchField
             placeholder="Search by Employee ID"
-            onChange={this.handleSearchChange}
+            // onChange={this.handleSearchChange}
+            onSearchClick={
+              this.state.staff.staffNumber ? this.renderEmployee() : ""
+            }
             classNames="test-class"
           />
+          {/* {this.state.staff.map(member => (
+            <div>{member.staffNumber}</div>
+          ))} */}
         </header>
       </div>
     );
