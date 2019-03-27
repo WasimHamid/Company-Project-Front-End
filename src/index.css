@@ -102,3 +102,15 @@ body {
   font-size: 30pt;
   margin: 0px;
 }
+
+.bottomBox {
+  width: 90vw;
+  height: 50vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.commentsBox {
+  width: 50vw;
+  height: 50vh;
+}

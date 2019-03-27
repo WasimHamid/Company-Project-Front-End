@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import SearchDialog from "../SearchDialog";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import RadioSet from "../RadioSet";
 
 import "./App.css";
@@ -13,9 +14,22 @@ class App extends Component {
       impact: [],
       potCat: [],
       potScore: [],
-      managers: []
+      managers: [],
+      impactAve: 0,
+      potCatAve: 0,
+      potScoreAve: 0,
+      sessionId: false,
+      managerComments: "",
+      successionPlan: ""
     };
   }
+
+  handleCommentChange = (event, key) => {
+    const { value } = event.target;
+    this.setState(() => ({
+      [key]: value
+    }));
+  };
 
   handleRadioChange = (event, scoreCat, arrPos) => {
     const { value } = event.target;
@@ -52,7 +66,70 @@ class App extends Component {
     }));
   };
 
+  calcAverage = () => {
+    this.setState(() => ({
+      impactAve: Math.ceil(
+        this.state.impact.reduce((total, amount) => {
+          total += amount;
+          return total / this.state.impact.length;
+        }, 0)
+      ),
+      potCatAve: Math.ceil(
+        this.state.potCat.reduce((total, amount) => {
+          total += amount;
+          return total / this.state.potCat.length;
+        }, 0)
+      ),
+      potScoreAve: Math.ceil(
+        this.state.potScore.reduce((total, amount) => {
+          total += amount;
+          return total / this.state.potScore.length;
+        }, 0)
+      )
+    }));
+  };
+
+  save = () => {
+    if (this.state.sessionId) {
+      // save to current session
+    }
+    fetch("http://localhost:5000/sessions", {
+      method: "POST",
+      body: JSON.stringify({
+        sessionId: 598308,
+        impact: this.state.impact,
+        potentialCategory: this.state.potCat,
+        potential: this.state.potScore,
+        overallImpact: this.state.impactAve,
+        overallPotentialCategory: this.state.potCatAve,
+        overallPotential: this.state.potScoreAve,
+        dateLastReviewed: "12/12/12",
+        editHistory: [],
+        userCreatedSession: new Date(),
+        successionPlan: this.state.successionPlan,
+        managerComments: this.state.managerComments,
+        owner: "5c9b8c8edb6aa3191c9d8e1d"
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accepts: "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(response => console.log("Success:", JSON.stringify(response)))
+      .catch(error => console.error("Error:", error));
+  };
+
   render() {
+    let potAveConversion = "";
+    if (this.state.potCatAve === 1) {
+      potAveConversion = "Team";
+    } else if (this.state.potCatAve === 2) {
+      potAveConversion = "Functional";
+    } else if (this.state.potCatAve === 3) {
+      potAveConversion = "Organisational";
+    }
+
     return (
       <div className="App">
         <div className="container">
@@ -65,7 +142,7 @@ class App extends Component {
               <p>Manager:</p>
             </div>
             <div className="buttonBox">
-              <Button>Save</Button>
+              <Button onClick={this.save}>Save</Button>
               <Button>View Edits</Button>
               <Button>Previous Scores</Button>
               <Button>Close</Button>
@@ -86,7 +163,7 @@ class App extends Component {
               {this.state.managers.map((manager, idx) => (
                 <div className="radioBox">
                   <RadioSet
-                    amount={5}
+                    amount={3}
                     onSelect={event =>
                       this.handleRadioChange(event, "impact", idx)
                     }
@@ -123,15 +200,40 @@ class App extends Component {
                 Add Manager
               </Button>
               <div className="resultBox">
-                <p>3</p>
-                <p>Team</p>
-                <p>3</p>
+                <p>{this.state.impactAve}</p>
+                <p>{potAveConversion}</p>
+                <p>{this.state.potScoreAve}</p>
               </div>
+              <Button onClick={this.calcAverage}>Calculate Averages</Button>
               <div className="resultBox">
                 <div>Graph</div>
                 <div>Graph</div>
                 <div>Graph</div>
               </div>
+            </div>
+          </div>
+          <div className="bottomBox">
+            <div className="commentsBox">
+              <TextField
+                id="standard-multiline-static"
+                label="Manager Comments"
+                multiline
+                rows="4"
+                onChange={event => {
+                  this.handleCommentChange(event, "managerComments");
+                }}
+              />
+            </div>
+            <div className="commentsBox">
+              <TextField
+                id="standard-multiline-static"
+                label="Succession Plan"
+                multiline
+                rows="4"
+                onChange={event => {
+                  this.handleCommentChange(event, "successionPlan");
+                }}
+              />
             </div>
           </div>
         </div>
