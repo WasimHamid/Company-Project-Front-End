@@ -1,68 +1,60 @@
 import React from "react";
-import { Pie } from "react-chartjs-2";
-import { MDBContainer } from "mdbreact";
+// import { Pie } from "react-chartjs-2";
+// import { MDBContainer } from "mdbreact";
 
+import Chart from "react-minimal-pie-chart";
 
-
-const session = [
-  {
-    impact: [1, 2, 3, 3, 4],
-    potentialCategory: Array,
-    potential: Array,
-    overallImpact: Number,
-    overallPotentialCategory: Number,
-    overallPotential: Number,
-    dateLastReviewed: Date,
-    editHistory: Array,
-    userCreatedSession: String,
-    successionPlan: String,
-    managerComments: String
-  }
-];
+// NOTE: The DB looks like this
+// const session = [
+//   {
+//     impact: [1, 2, 3, 3, 4],
+//     potentialCategory: Array,
+//     potential: Array,
+//     overallImpact: Number,
+//     overallPotentialCategory: Number,
+//     overallPotential: Number,
+//     dateLastReviewed: Date,
+//     editHistory: Array,
+//     userCreatedSession: String,
+//     successionPlan: String,
+//     managerComments: String
+//   }
+// ];
 /// this is what this does
 
-class PieChart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataPie: {
-        labels: ["1 star", "2 star", "3 star", "4 star", "5 star"],
+// const impact = [1, 2, 5, 5, 5, 3, 3, 2, 1, 1, 1, 5, 4, 4, 5, 5, 5, 5];
+// const total = [0, 0, 0, 0, 0];
+// for (let i = 0; i < impact.length; i++) {
+//   const value = impact[i];
+//   const index = value - 1;
+//   total[index] = total[index] + 1
+// }
 
-        datasets: [
-          {
-            data: [1,3,3,4,5], /// the impact data need to be pulled in here. 
-                                                    // I need to aggrgate / count this data. 
-                                                    /// count, how many time, 1 appears, 2 appears...
-                                                    /// I will end up with an array of [key:value] which looks like label = key, and the value = the data. 
-                                                    /// create readme files. writing doc for the api. technical documentation
-            backgroundColor: [
-              "#F7464A",
-              "#46BFBD",
-              "#FDB45C",
-              "#949FB1",
-              "#4D5360"
-            ],
-            hoverBackgroundColor: [
-              "#FF5A5E",
-              "#5AD3D1",
-              "#FFC870",
-              "#A8B3C5",
-              "#616774"
-            ]
-          }
-        ]
-      }
-    };
-  }
+const PieChart = ({ values }) => { /// this variable Pie Chart takes values. Whereas before it could take in an array. 
+                                  /// this change from a class with own state to a variables that it inherits
+                                  /// it's also a function now.  TODO: Why is it a function?
 
-  render() {
-    return (
-      <MDBContainer>
-        <h3 className="mt-5" /> impact score
-        <Pie data={this.state.dataPie} options={{ responsive: true }} height='50%' />
-      </MDBContainer>
-    );
-  }
-}
+  const sortedUniques = [...new Set(values)].sort((a, b) => a - b); /// here the variable is the sorted scores from the array. Sorted Uniques. Set is a way of dealing with an array of these values. 
+
+  const numberOfTotals = sortedUniques[sortedUniques.length - 1] - sortedUniques[0] + 1; // sort so that if a score is not given it doesn't break the code.
+  
+  const count = values.reduce( // gives back a new array where the score is maps to the index number. you have to take one away so that it is mapped from idx 0.
+    (acc, cur) => {
+      const total = [...acc];
+      const index = cur - 1;
+      total[index] = total[index] + 1;
+      return total;
+    },
+    Array(numberOfTotals).fill(0) // fill the array with 0s so that the count of scores can happen.
+  );
+
+  const colours = ["#E38627", "#A38A27", "#FFFF27", "#E386FF", "#E30027"];
+
+  const data = count.map((value, idx) => {
+    return { title: idx + 1, value: value, color: colours[idx] };
+  });
+
+  return <Chart data={data} />;
+};
 
 export default PieChart;

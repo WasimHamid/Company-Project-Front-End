@@ -3,13 +3,11 @@ import React, { Component } from "react";
 import SearchDialog from "../SearchDialog";
 import Button from "@material-ui/core/Button";
 import RadioSet from "../RadioSet";
-import PieChart from "../PieChart"
-
+import PieChart from "../PieChart";
 
 import "./App.css";
 
-const API = "http://localhost:5000"
-
+const API = "http://localhost:5000";
 
 class App extends Component {
   // constructor(props) {
@@ -86,7 +84,29 @@ class App extends Component {
                 <div>Graph</div>
               </div>
               <div className="PieChart">
-                <PieChart />
+                <PieChart
+                  values={[// TODO:  change these values so that it call them in from the database.
+                    1,
+                    2,
+                    5,
+                    5,
+                    5,
+                    3,
+                    3,
+                    2,
+                    1,
+                    1,
+                    1,
+                    5,
+                    4,
+                    4,
+                    5,
+                    5,
+                    5,
+                    5
+                  ]}
+                />
+                <PieChart values={[1, 5, 4, 4, 5, 5, 5, 5]} />
               </div>
             </div>
           </div>
