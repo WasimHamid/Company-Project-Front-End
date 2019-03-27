@@ -1,0 +1,11 @@
+.button {
+  width: 50%;
+  height: 10%;
+  background: purple;
+}
+.button2 {
+  background: red;
+}
+.button3 {
+  background: green;
+}

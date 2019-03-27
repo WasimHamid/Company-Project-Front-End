@@ -4,6 +4,9 @@ import SearchDialog from "../SearchDialog";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import RadioSet from "../RadioSet";
+import EditHistory from "../EditHistory";
+import Login from "../Login";
+import RegisterPage from "../RegisterPage";
 
 import "./App.css";
 
@@ -18,9 +21,12 @@ class App extends Component {
       impactAve: 0,
       potCatAve: 0,
       potScoreAve: 0,
-      sessionId: false,
+      sessionId: null,
       managerComments: "",
-      successionPlan: ""
+      successionPlan: "",
+      loginPage: true,
+      landingPage: false,
+      sessionPage: false
     };
   }
 
@@ -96,7 +102,7 @@ class App extends Component {
     fetch("http://localhost:5000/sessions", {
       method: "POST",
       body: JSON.stringify({
-        sessionId: 598308,
+        sessionId: 598310,
         impact: this.state.impact,
         potentialCategory: this.state.potCat,
         potential: this.state.potScore,
@@ -108,7 +114,7 @@ class App extends Component {
         userCreatedSession: new Date(),
         successionPlan: this.state.successionPlan,
         managerComments: this.state.managerComments,
-        owner: "5c9b8c8edb6aa3191c9d8e1d"
+        owner: "5c9b8c8edb6aa3191c9d8e2d"
       }),
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +122,10 @@ class App extends Component {
       }
     })
       .then(res => res.json())
-      .then(response => console.log("Success:", JSON.stringify(response)))
+      // .then(response => console.log(response.payload.sessionId))
+      .then(response =>
+        this.setState(() => ({ sessionId: response.payload.sessionId }))
+      )
       .catch(error => console.error("Error:", error));
   };
 
@@ -132,111 +141,118 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className="container">
-          <div className="topBox">
-            <div className="employeeBox">
-              <SearchDialog />
-              <p>Employee Name:</p>
-              <p>Employee Number:</p>
-              <p>Dept:</p>
-              <p>Manager:</p>
-            </div>
-            <div className="buttonBox">
-              <Button onClick={this.save}>Save</Button>
-              <Button>View Edits</Button>
-              <Button>Previous Scores</Button>
-              <Button>Close</Button>
-            </div>
-          </div>
-          <div className="middleBox">
-            <div className="managerList">
-              {this.state.managers.map(manager => (
-                <p>{manager}</p>
-              ))}
-            </div>
-            <div className="scoreSection">
-              <div className="titleBox">
-                <h2>Impact</h2>
-                <h2>Potential Category</h2>
-                <h2>Potential Score</h2>
+        {this.state.sessionPage ? (
+          <div className="container">
+            <div className="topBox">
+              <div className="employeeBox">
+                <SearchDialog />
+                <p>Employee Name:</p>
+                <p>Employee Number:</p>
+                <p>Dept:</p>
+                <p>Manager:</p>
               </div>
-              {this.state.managers.map((manager, idx) => (
-                <div className="radioBox">
-                  <RadioSet
-                    amount={3}
-                    onSelect={event =>
-                      this.handleRadioChange(event, "impact", idx)
-                    }
-                    checked={this.state.impact[idx]}
-                  />
-                  <RadioSet
-                    amount={3}
-                    onSelect={event =>
-                      this.handleRadioChange(event, "potCat", idx)
-                    }
-                    checked={this.state.potCat[idx]}
-                  />
-                  <RadioSet
-                    amount={5}
-                    onSelect={event =>
-                      this.handleRadioChange(event, "potScore", idx)
-                    }
-                    checked={this.state.potScore[idx]}
-                  />
-                  <button
-                    onClick={() => {
-                      this.removeManager(idx);
-                    }}
-                  >
-                    x
-                  </button>
+              <div className="buttonBox">
+                <Button onClick={this.save}>Save</Button>
+                <EditHistory sessionId={this.state.sessionId} />
+                <Button>Previous Scores</Button>
+                <Button>Close</Button>
+              </div>
+            </div>
+            <div className="middleBox">
+              <div className="managerList">
+                {this.state.managers.map(manager => (
+                  <p>{manager}</p>
+                ))}
+              </div>
+              <div className="scoreSection">
+                <div className="titleBox">
+                  <h2>Impact</h2>
+                  <h2>Potential Category</h2>
+                  <h2>Potential Score</h2>
                 </div>
-              ))}
-              <Button
-                onClick={() => {
-                  this.addManager("John Smith");
-                }}
-              >
-                Add Manager
-              </Button>
-              <div className="resultBox">
-                <p>{this.state.impactAve}</p>
-                <p>{potAveConversion}</p>
-                <p>{this.state.potScoreAve}</p>
+                {this.state.managers.map((manager, idx) => (
+                  <div className="radioBox">
+                    <RadioSet
+                      amount={3}
+                      onSelect={event =>
+                        this.handleRadioChange(event, "impact", idx)
+                      }
+                      checked={this.state.impact[idx]}
+                    />
+                    <RadioSet
+                      amount={3}
+                      onSelect={event =>
+                        this.handleRadioChange(event, "potCat", idx)
+                      }
+                      checked={this.state.potCat[idx]}
+                    />
+                    <RadioSet
+                      amount={5}
+                      onSelect={event =>
+                        this.handleRadioChange(event, "potScore", idx)
+                      }
+                      checked={this.state.potScore[idx]}
+                    />
+                    <button
+                      onClick={() => {
+                        this.removeManager(idx);
+                      }}
+                    >
+                      x
+                    </button>
+                  </div>
+                ))}
+                <Button
+                  onClick={() => {
+                    this.addManager("John Smith");
+                  }}
+                >
+                  Add Manager
+                </Button>
+                <div className="resultBox">
+                  <p>{this.state.impactAve}</p>
+                  <p>{potAveConversion}</p>
+                  <p>{this.state.potScoreAve}</p>
+                </div>
+                <Button onClick={this.calcAverage}>Calculate Averages</Button>
+                <div className="resultBox">
+                  <div>Graph</div>
+                  <div>Graph</div>
+                  <div>Graph</div>
+                </div>
               </div>
-              <Button onClick={this.calcAverage}>Calculate Averages</Button>
-              <div className="resultBox">
-                <div>Graph</div>
-                <div>Graph</div>
-                <div>Graph</div>
+            </div>
+            <div className="bottomBox">
+              <div className="commentsBox">
+                <TextField
+                  id="standard-multiline-static"
+                  label="Manager Comments"
+                  multiline
+                  rows="4"
+                  onChange={event => {
+                    this.handleCommentChange(event, "managerComments");
+                  }}
+                />
+              </div>
+              <div className="commentsBox">
+                <TextField
+                  id="standard-multiline-static"
+                  label="Succession Plan"
+                  multiline
+                  rows="4"
+                  onChange={event => {
+                    this.handleCommentChange(event, "successionPlan");
+                  }}
+                />
               </div>
             </div>
           </div>
-          <div className="bottomBox">
-            <div className="commentsBox">
-              <TextField
-                id="standard-multiline-static"
-                label="Manager Comments"
-                multiline
-                rows="4"
-                onChange={event => {
-                  this.handleCommentChange(event, "managerComments");
-                }}
-              />
-            </div>
-            <div className="commentsBox">
-              <TextField
-                id="standard-multiline-static"
-                label="Succession Plan"
-                multiline
-                rows="4"
-                onChange={event => {
-                  this.handleCommentChange(event, "successionPlan");
-                }}
-              />
-            </div>
-          </div>
-        </div>
+        ) : (
+          <>
+            <Login />
+            <RegisterPage />
+          </>
+        )}
       </div>
     );
   }
