@@ -3,8 +3,13 @@ import React, { Component } from "react";
 import SearchDialog from "../SearchDialog";
 import Button from "@material-ui/core/Button";
 import RadioSet from "../RadioSet";
+import PieChart from "../PieChart"
+
 
 import "./App.css";
+
+const API = "http://localhost:5000"
+
 
 class App extends Component {
   // constructor(props) {
@@ -79,6 +84,9 @@ class App extends Component {
                 <div>Graph</div>
                 <div>Graph</div>
                 <div>Graph</div>
+              </div>
+              <div className="PieChart">
+                <PieChart />
               </div>
             </div>
           </div>
