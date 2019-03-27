@@ -141,7 +141,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {this.state.sessionPage ? (
+        {!this.state.loginPage ? (
           <div className="container">
             <div className="topBox">
               <div className="employeeBox">
