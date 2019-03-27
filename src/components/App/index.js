@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
+import Login from "../Login";
+import RegisterPage from "../RegisterPage";
 import SearchDialog from "../SearchDialog";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import RadioSet from "../RadioSet";
 import EditHistory from "../EditHistory";
-import Login from "../Login";
-import RegisterPage from "../RegisterPage";
 
 import "./App.css";
 
