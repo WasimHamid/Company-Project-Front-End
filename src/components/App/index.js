@@ -12,14 +12,43 @@ class App extends Component {
     this.state = {
       impact: [],
       potCat: [],
-      potScore: []
+      potScore: [],
+      managers: []
     };
   }
 
-  handleRadioChange = event => {
+  handleRadioChange = (event, scoreCat, arrPos) => {
     const { value } = event.target;
-    this.setState(() => ({
-      score: parseInt(value)
+    this.setState(state => ({
+      [scoreCat]: [
+        ...state[scoreCat].slice(0, arrPos),
+        parseInt(value),
+        ...state[scoreCat].slice(arrPos + 1)
+      ]
+    }));
+  };
+
+  addManager = toAdd => {
+    this.setState(state => ({
+      managers: [...state.managers, toAdd],
+      impact: [...state.impact, null],
+      potCat: [...state.potCat, null],
+      potScore: [...state.potScore, null]
+    }));
+  };
+
+  removeManager = idx => {
+    this.setState(state => ({
+      managers: [
+        ...state.managers.slice(0, idx),
+        ...state.managers.slice(idx + 1)
+      ],
+      impact: [...state.impact.slice(0, idx), ...state.impact.slice(idx + 1)],
+      potCat: [...state.potCat.slice(0, idx), ...state.potCat.slice(idx + 1)],
+      potScore: [
+        ...state.potScore.slice(0, idx),
+        ...state.potScore.slice(idx + 1)
+      ]
     }));
   };
 
@@ -44,11 +73,9 @@ class App extends Component {
           </div>
           <div className="middleBox">
             <div className="managerList">
-              <Button>Add Manager</Button>
-              <Button>Add Manager</Button>
-              <Button>Add Manager</Button>
-              <Button>Add Manager</Button>
-              <Button>Add Manager</Button>
+              {this.state.managers.map(manager => (
+                <p>{manager}</p>
+              ))}
             </div>
             <div className="scoreSection">
               <div className="titleBox">
@@ -56,31 +83,45 @@ class App extends Component {
                 <h2>Potential Category</h2>
                 <h2>Potential Score</h2>
               </div>
-              <div className="radioBox">
-                <RadioSet amount="5" />
-                <RadioSet amount="3" />
-                <RadioSet amount="5" />
-              </div>
-              <div className="radioBox">
-                <RadioSet amount="5" />
-                <RadioSet amount="3" />
-                <RadioSet amount="5" />
-              </div>
-              <div className="radioBox">
-                <RadioSet amount="5" />
-                <RadioSet amount="3" />
-                <RadioSet amount="5" />
-              </div>
-              <div className="radioBox">
-                <RadioSet amount="5" />
-                <RadioSet amount="3" />
-                <RadioSet amount="5" />
-              </div>
-              <div className="radioBox">
-                <RadioSet amount="5" />
-                <RadioSet amount="3" />
-                <RadioSet amount="5" />
-              </div>
+              {this.state.managers.map((manager, idx) => (
+                <div className="radioBox">
+                  <RadioSet
+                    amount={5}
+                    onSelect={event =>
+                      this.handleRadioChange(event, "impact", idx)
+                    }
+                    checked={this.state.impact[idx]}
+                  />
+                  <RadioSet
+                    amount={3}
+                    onSelect={event =>
+                      this.handleRadioChange(event, "potCat", idx)
+                    }
+                    checked={this.state.potCat[idx]}
+                  />
+                  <RadioSet
+                    amount={5}
+                    onSelect={event =>
+                      this.handleRadioChange(event, "potScore", idx)
+                    }
+                    checked={this.state.potScore[idx]}
+                  />
+                  <button
+                    onClick={() => {
+                      this.removeManager(idx);
+                    }}
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
+              <Button
+                onClick={() => {
+                  this.addManager("John Smith");
+                }}
+              >
+                Add Manager
+              </Button>
               <div className="resultBox">
                 <p>3</p>
                 <p>Team</p>

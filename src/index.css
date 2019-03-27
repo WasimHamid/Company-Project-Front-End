@@ -78,6 +78,11 @@ body {
   height: 10vh;
 }
 
+.radioBox button {
+  width: 15px;
+  height: 20px;
+}
+
 .resultBox {
   width: 80vw;
   height: 10vh;
