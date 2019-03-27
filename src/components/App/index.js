@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import Login from "../Login";
+import RegisterPage from "../RegisterPage";
 import SearchDialog from "../SearchDialog";
 import Button from "@material-ui/core/Button";
 import RadioSet from "../RadioSet";
@@ -23,7 +25,8 @@ class App extends Component {
               <p>Employee Number:</p>
               <p>Dept:</p>
               <p>Manager:</p>
-            </div>
+            </div><Login />
+          <RegisterPage />
             <div className="buttonBox">
               <Button>Save</Button>
               <Button>View Edits</Button>
