@@ -7,11 +7,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import TextField from "@material-ui/core/TextField";
 
-class SearchDialog extends Component {
+class AddManager extends Component {
   render() {
     return (
       <>
-        <Button onClick={this.props.onOpen}>Add Employee</Button>
+        <Button onClick={this.props.onOpen}>Add Manager</Button>
         <Dialog
           open={this.props.isOpen}
           onClose={this.props.onClose}
@@ -31,7 +31,7 @@ class SearchDialog extends Component {
               label="Employee Number"
               type="search"
             />
-            <p>{this.props.employeeInfo[0]}</p>
+            <p>{this.props.searchedMan}</p>
             <Button color="primary" onClick={this.props.onClick}>
               Search
             </Button>
@@ -50,4 +50,4 @@ class SearchDialog extends Component {
   }
 }
 
-export default SearchDialog;
+export default AddManager;

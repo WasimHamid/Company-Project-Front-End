@@ -27,6 +27,12 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 15px;
 }
+  
+.button {
+  width: 10%;
+  height: 10%;
+  background: purple;
+}
 
 .formContainer {
   display: flex;
@@ -39,9 +45,4 @@ body {
 }
 
 .passwordInput {
-}
-
-.button {
-  size: large;
-  color: #ffffff;
 }
