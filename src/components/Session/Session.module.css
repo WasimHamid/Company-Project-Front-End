@@ -1,5 +1,5 @@
 body {
-  background-color: #deecf1;
+  /* background-color: #deecf1; */
   margin: 0;
   padding: 0;
   font-family: "Open Sans", sans-serif;
@@ -8,11 +8,11 @@ body {
 }
 
 .container {
+  background-color: #deecf1;
   margin: 0px;
   padding: 0px;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   width: 100vw;
   height: 200vh;
 }

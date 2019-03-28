@@ -77,7 +77,7 @@ class Login extends React.Component {
           </Button>
           <Link to="/register">
             <Button
-              className={Styles.button}
+              className={css.button}
               variant="contained"
               color="primary"
               size="large"

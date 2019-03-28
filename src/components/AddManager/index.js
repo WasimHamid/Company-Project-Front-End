@@ -11,7 +11,9 @@ class AddManager extends Component {
   render() {
     return (
       <>
-        <Button onClick={this.props.onOpen}>Add Manager</Button>
+        <Button variant="contained" onClick={this.props.onOpen}>
+          Add Manager
+        </Button>
         <Dialog
           open={this.props.isOpen}
           onClose={this.props.onClose}

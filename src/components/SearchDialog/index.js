@@ -11,7 +11,9 @@ class SearchDialog extends Component {
   render() {
     return (
       <>
-        <Button onClick={this.props.onOpen}>Add Employee</Button>
+        <Button variant="contained" onClick={this.props.onOpen}>
+          Add Employee
+        </Button>
         <Dialog
           open={this.props.isOpen}
           onClose={this.props.onClose}

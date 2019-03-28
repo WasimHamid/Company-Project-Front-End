@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import SearchField from "react-search-field";
-import Styles from "./NewSessions.module.css";
+import Styles from "./NewSession.module.css";
 
 const API = "http://localhost:5000";
 
