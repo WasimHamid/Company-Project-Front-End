@@ -20,7 +20,10 @@ class Session extends Component {
       potScoreAve: 0,
       sessionId: null,
       managerComments: "",
-      successionPlan: ""
+      successionPlan: "",
+      empNumber: "",
+      employeeInfo: [],
+      openDialog: false
     };
   }
 
@@ -40,6 +43,50 @@ class Session extends Component {
         ...state[scoreCat].slice(arrPos + 1)
       ]
     }));
+  };
+
+  handleDialogOpen = () => {
+    this.setState(() => ({ openDialog: true }));
+  };
+
+  handleOk = () => {
+    this.setState(state => ({
+      employeeInfo: [...state.employeeInfo.slice(0, 5), true],
+      openDialog: false
+    }));
+  };
+
+  handleDialogClose = () => {
+    this.setState(() => ({ openDialog: false }));
+  };
+
+  handleSearchChange = event => {
+    const { value } = event.target;
+    this.setState(() => ({
+      empNumber: value
+    }));
+  };
+
+  searchClick = () => {
+    const search = this.state.empNumber;
+    fetch(`http://localhost:5000/employees/${search}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data =>
+        this.setState(() => ({
+          employeeInfo: [
+            `${data.payload.employee.firstName} ${
+              data.payload.employee.lastName
+            }`,
+            data.payload.employee.staffNumber,
+            data.payload.employee.department,
+            data.payload.employee.manager,
+            data.payload.employee._id,
+            false
+          ]
+        }))
+      );
   };
 
   addManager = toAdd => {
@@ -93,7 +140,6 @@ class Session extends Component {
     if (this.state.sessionId) {
       // save to current session
     }
-    let token = localStorage.getItem("Token");
     fetch(`http://localhost:5000/sessions`, {
       method: "POST",
       body: JSON.stringify({
@@ -110,7 +156,7 @@ class Session extends Component {
         userCreatedSession: new Date(),
         successionPlan: this.state.successionPlan,
         managerComments: this.state.managerComments,
-        owner: "5c9b8c8edb6aa3191c9d8e4e"
+        owner: this.state.employeeInfo[4]
       }),
       headers: {
         "Content-Type": "application/json",
@@ -139,11 +185,24 @@ class Session extends Component {
       <div className="container">
         <div className="topBox">
           <div className="employeeBox">
-            <SearchDialog />
-            <p>Employee Name:</p>
-            <p>Employee Number:</p>
-            <p>Dept:</p>
-            <p>Manager:</p>
+            {this.state.employeeInfo[5] ? (
+              <>
+                <p>Employee Name: {this.state.employeeInfo[0]}</p>
+                <p>Employee Number: {this.state.employeeInfo[1]}</p>
+                <p>Dept: {this.state.employeeInfo[2]}</p>
+                <p>Manager: {this.state.employeeInfo[3]}</p>
+              </>
+            ) : (
+              <SearchDialog
+                onChange={this.handleSearchChange}
+                onClick={this.searchClick}
+                employeeInfo={this.state.employeeInfo}
+                onOpen={this.handleDialogOpen}
+                onClose={this.handleDialogClose}
+                onOk={this.handleOk}
+                isOpen={this.state.openDialog}
+              />
+            )}
           </div>
           <div className="buttonBox">
             <Button onClick={this.save}>Save</Button>
