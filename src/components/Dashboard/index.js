@@ -13,6 +13,7 @@ class Dashboard extends Component {
         <Switch>
           <Route exact path="/" component={NewSessions} />
           <Route exact path="/new" component={Session} />
+
           {/* <Route exact path="/session/:id" component={Session} /> */}
         </Switch>
       </div>

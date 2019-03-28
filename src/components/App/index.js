@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { Route, Redirect, Switch } from "react-router-dom";
 import Login from "../Login";
+import RegisterPage from "../RegisterPage";
 import Dashboard from "../Dashboard";
 
 const API = "http://localhost:5000";
@@ -51,24 +52,27 @@ class App extends Component {
 
   render() {
     return (
-      <Switch>
-        <Route
-          exact
-          path="/login"
-          render={() => (
-            <Login onLogin={this.login} isLoading={this.state.isLoading} />
-          )}
-        />
-        <Route
-          path="/"
-          render={() => {
-            if (!this.state.isLoggedIn) {
-              return <Redirect to="/login" />;
-            }
-            return <Dashboard />;
-          }}
-        />
-      </Switch>
+      <>
+        <Switch>
+          <Route
+            exact
+            path="/login"
+            render={() => (
+              <Login onLogin={this.login} isLoading={this.state.isLoading} />
+            )}
+          />
+          <Route exact path="/register" render={() => <RegisterPage />} />
+          <Route
+            path="/"
+            render={() => {
+              if (!this.state.isLoggedIn) {
+                return <Redirect to="/login" />;
+              }
+              return <Dashboard />;
+            }}
+          />
+        </Switch>
+      </>
     );
   }
 }
