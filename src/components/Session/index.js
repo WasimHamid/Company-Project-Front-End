@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import RadioSet from "../RadioSet";
 import EditHistory from "../EditHistory";
 import AddManager from "../AddManager";
+import PieChart from "../PieChart";
 
 import css from "./Session.module.css";
 
@@ -322,15 +323,15 @@ class Session extends Component {
               Calculate Averages
             </Button>
             <div className={css.resultBox}>
-              {/* <div>
-                    <PieChart values={this.state.impact} />
-                  </div>
-                  <div>
-                    <PieChart values={this.state.potCat} />
-                  </div>
-                  <div>
-                    <PieChart values={this.state.potScore} />
-                  </div> */}
+              <div>
+                <PieChart values={this.state.impact} />
+              </div>
+              <div>
+                <PieChart values={this.state.potCat} />
+              </div>
+              <div>
+                <PieChart values={this.state.potScore} />
+              </div>
             </div>
           </div>
         </div>
