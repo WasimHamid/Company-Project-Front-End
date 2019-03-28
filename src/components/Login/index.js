@@ -2,8 +2,7 @@ import React from "react";
 import Loader from "react-loader-spinner";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-
-import RegisterPage from "../RegisterPage";
+import { Link } from "react-router-dom";
 
 import Styles from "../Login/Login.module.css";
 
@@ -58,9 +57,18 @@ class Login extends React.Component {
           >
             Login
           </Button>
-        </div>
 
-        <RegisterPage />
+          <Link to="/register">
+            <Button
+              className={Styles.button}
+              variant="contained"
+              color="primary"
+              size="large"
+            >
+              Register
+            </Button>
+          </Link>
+        </div>
       </div>
     );
   }
