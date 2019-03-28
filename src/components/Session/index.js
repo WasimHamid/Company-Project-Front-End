@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import SearchDialog from "../SearchDialog";
 import Button from "@material-ui/core/Button";
@@ -148,7 +149,9 @@ class Session extends Component {
             <Button onClick={this.save}>Save</Button>
             <EditHistory sessionId={this.state.sessionId} />
             <Button>Previous Scores</Button>
-            <Button>Close</Button>
+            <Link to="/">
+              <Button>Close</Button>
+            </Link>
           </div>
         </div>
         <div className="middleBox">
