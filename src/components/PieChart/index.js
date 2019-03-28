@@ -63,7 +63,7 @@ const PieChart = ({ values }) => {
   });
 
   console.log(data);
-  return <Chart data={data} style={{ height: "10vh" }} />;
+  return <Chart data={data} style={{ height: "20vh" }} />;
 };
 
 export default PieChart;

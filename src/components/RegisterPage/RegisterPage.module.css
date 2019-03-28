@@ -1,0 +1,47 @@
+body {
+  background-color: #ea1d25;
+}
+
+/* .logo {
+ margin-left: 200px;
+} */
+
+.loader {
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  margin-top: 50px;
+  display: flex;
+  color: #ffffff;
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 50px;
+}
+
+.smallHeader {
+  display: flex;
+  color: black;
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.emailInput {
+}
+
+.passwordInput {
+}
+
+.button {
+  size: large;
+  color: #ffffff;
+}
