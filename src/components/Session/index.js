@@ -8,6 +8,8 @@ import RadioSet from "../RadioSet";
 import EditHistory from "../EditHistory";
 import AddManager from "../AddManager";
 
+import css from "./Session.module.css";
+
 class Session extends Component {
   constructor(props) {
     super(props);
@@ -210,9 +212,9 @@ class Session extends Component {
     }
 
     return (
-      <div className="container">
-        <div className="topBox">
-          <div className="employeeBox">
+      <div className={css.container}>
+        <div className={css.topBox}>
+          <div className={css.employeeBox}>
             {this.state.employeeInfo[5] ? (
               <>
                 <p>Employee Name: {this.state.employeeInfo[0]}</p>
@@ -232,29 +234,45 @@ class Session extends Component {
               />
             )}
           </div>
-          <div className="buttonBox">
-            <Button onClick={this.save}>Save</Button>
-            <EditHistory sessionId={this.state.sessionId} />
-            <Button>Previous Scores</Button>
+          <div className={css.buttonBox}>
+            <Button variant="contained" onClick={this.save}>
+              Save
+            </Button>
+            <br />
+            <br />
+            <Button variant="contained" sessionId={this.state.sessionId}>
+              Edit Session
+            </Button>
+            <br />
+            <br />
+
+            <Button variant="contained">Previous Scores</Button>
             <Link to="/">
-              <Button>Close</Button>
+              <br />
+              <br />
+
+              <Button variant="contained">Close</Button>
             </Link>
           </div>
         </div>
-        <div className="middleBox">
-          <div className="managerList">
+        <div className={css.middleBox}>
+          <div className={css.managerList}>
             {this.state.managers.map(manager => (
               <p>{manager}</p>
             ))}
           </div>
-          <div className="scoreSection">
-            <div className="titleBox">
+          <div className={css.scoreSection}>
+            <div className={css.titleBox}>
               <h2>Impact</h2>
               <h2>Potential Category</h2>
               <h2>Potential Score</h2>
             </div>
+            <div className={css.labels}>
+              {" "}
+              1 2 3 Team Functional Organisational 1 2 3 4 5
+            </div>{" "}
             {this.state.managers.map((manager, idx) => (
-              <div className="radioBox">
+              <div className={css.radioBox}>
                 <RadioSet
                   amount={3}
                   onSelect={event =>
@@ -277,6 +295,7 @@ class Session extends Component {
                   checked={this.state.potScore[idx]}
                 />
                 <button
+                  variant="contained"
                   onClick={() => {
                     this.removeManager(idx);
                   }}
@@ -294,13 +313,15 @@ class Session extends Component {
               onOk={() => this.handleManOk(this.state.searchedMan)}
               isOpen={this.state.openManDialog}
             />
-            <div className="resultBox">
+            <div className={css.resultBox}>
               <p>{this.state.impactAve}</p>
               <p>{potAveConversion}</p>
               <p>{this.state.potScoreAve}</p>
             </div>
-            <Button onClick={this.calcAverage}>Calculate Averages</Button>
-            <div className="resultBox">
+            <Button variant="contained" onClick={this.calcAverage}>
+              Calculate Averages
+            </Button>
+            <div className={css.resultBox}>
               {/* <div>
                     <PieChart values={this.state.impact} />
                   </div>
@@ -313,8 +334,8 @@ class Session extends Component {
             </div>
           </div>
         </div>
-        <div className="bottomBox">
-          <div className="commentsBox">
+        <div className={css.bottomBox}>
+          <div className={css.commentsBox}>
             <TextField
               id="standard-multiline-static"
               label="Manager Comments"
@@ -325,7 +346,7 @@ class Session extends Component {
               }}
             />
           </div>
-          <div className="commentsBox">
+          <div className={css.commentsBox}>
             <TextField
               id="standard-multiline-static"
               label="Succession Plan"

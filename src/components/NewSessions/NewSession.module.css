@@ -1,0 +1,32 @@
+.topBox {
+  width: 90vw;
+  height: 30vh;
+  display: flex;
+  flex-direction: row;
+  background-color: #ffffff;
+}
+
+.logoHeading {
+  padding: 20vh, 100vw;
+}
+
+.welcomeHeading {
+  font-size: 50px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.searchButton {
+  background-color: #ffffff;
+}
+
+.searchButton:hover {
+  background-color: #ffcd34;
+}
+
+.font {
+  font-family: "Open Sans", sans-serif;
+}
+
+.SearchField {
+  margin: 3px;
+}

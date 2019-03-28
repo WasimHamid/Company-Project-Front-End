@@ -1,11 +1,48 @@
+body {
+  background-color: #ea1d25;
+}
+
+/* .logo {
+  margin-left: 200px;
+} */
+
+.loader {
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  margin-top: 50px;
+  display: flex;
+  color: #ffffff;
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 50px;
+}
+
+.smallHeader {
+  display: flex;
+  color: black;
+  justify-content: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+}
+  
 .button {
   width: 10%;
   height: 10%;
   background: purple;
 }
-.button2 {
-  background: red;
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-.button3 {
-  background: green;
+
+.emailInput {
+}
+
+.passwordInput {
 }
