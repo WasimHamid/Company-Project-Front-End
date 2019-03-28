@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 import SearchField from "react-search-field";
 
 const API = "http://localhost:5000";
@@ -7,16 +9,9 @@ class NewSession extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sessionResponse: "",
       query: "",
       staff: []
     };
-  }
-
-  callSessionAPI() {
-    fetch(`${API}/session`)
-      .then(res => res.text())
-      .then(res => this.setState({ sessionResponse: res }));
   }
 
   handleSearchChange = () => {
@@ -37,7 +32,9 @@ class NewSession extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <button onClick={() => this.callSession}>Start New Session</button>
+          <Link to="/new">
+            <Button>Start New Session</Button>
+          </Link>
           <SearchField
             placeholder="Search by Employee ID"
             // onChange={this.handleSearchChange}
