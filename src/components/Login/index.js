@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 
 import RegisterPage from "../RegisterPage";
 
-import Styles from "../Login/Login.module.css";
+import css from "./Login.module.css";
 
 class Login extends React.Component {
   constructor(props) {
@@ -25,42 +25,60 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Santander Login</h1>
-        {this.props.isLoading && (
-          <Loader type="ThreeDots" color="gold" height={80} width={80} />
-        )}
-        <div>
+      <div className={css.logo}>
+        {/* <img src=" /> */}
+
+        <h1 className={css.header}>Talent Review System</h1>
+
+        <br />
+
+        <h3 className={css.smallHeader}>Enter Your Login Details Here</h3>
+
+        <div className={css.loader}>
+          {this.props.isLoading && (
+            <Loader type="ThreeDots" color="#DEECF1" height={80} width={80} />
+          )}
+        </div>
+        <br />
+        <div className={css.formContainer}>
           <TextField
-            margin="normal"
+            // margin="normal"
             variant="outlined"
             onChange={this.onChange}
             value={this.state.email}
             name="email"
             type="email"
             label="email"
+            placeholder="Enter your email address"
+            className={css.emailInput}
           />
+          <br />
           <TextField
-            margin="normal"
+            // margin="normal"
             variant="outlined"
             onChange={this.onChange}
             value={this.state.password}
             name="password"
-            // type="password"
+            type="password"
             label="password"
+            placeholder="Enter your password"
+            className={css.passwordInput}
           />
+          <br />
           <Button
-            className={Styles.button}
+            className={css.button}
             variant="contained"
-            color="secondary"
-            size="large"
+            // color="secondary"
+            // size="large"
             onClick={() => this.props.onLogin(this.state)}
+            // component={Link}
+            // to="/new"
           >
             Login
           </Button>
         </div>
 
-        <RegisterPage />
+        {/* <RegisterPage /> */}
       </div>
     );
   }
