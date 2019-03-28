@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import RadioSet from "../RadioSet";
 import EditHistory from "../EditHistory";
+import AddManager from "../AddManager";
 
 class Session extends Component {
   constructor(props) {
@@ -20,7 +21,12 @@ class Session extends Component {
       potScoreAve: 0,
       sessionId: null,
       managerComments: "",
-      successionPlan: ""
+      successionPlan: "",
+      empNumber: "",
+      employeeInfo: [],
+      openSearchDialog: false,
+      openManDialog: false,
+      searchedMan: ""
     };
   }
 
@@ -42,13 +48,82 @@ class Session extends Component {
     }));
   };
 
-  addManager = toAdd => {
+  handleSearchDialogOpen = () => {
+    this.setState(() => ({ openSearchDialog: true }));
+  };
+
+  handleSearchOk = () => {
     this.setState(state => ({
-      managers: [...state.managers, toAdd],
+      employeeInfo: [...state.employeeInfo.slice(0, 5), true],
+      openSearchDialog: false
+    }));
+  };
+
+  handleSearchDialogClose = () => {
+    this.setState(() => ({ openSearchDialog: false }));
+  };
+
+  handleManDialogOpen = () => {
+    this.setState(() => ({ openManDialog: true }));
+  };
+
+  handleManOk = name => {
+    this.setState(state => ({
+      managers: [...state.managers, name],
       impact: [...state.impact, null],
       potCat: [...state.potCat, null],
-      potScore: [...state.potScore, null]
+      potScore: [...state.potScore, null],
+      openManDialog: false,
+      searchedMan: ""
     }));
+  };
+
+  handleManClose = () => {
+    this.setState(() => ({ openManDialog: false }));
+  };
+
+  handleSearchChange = event => {
+    const { value } = event.target;
+    this.setState(() => ({
+      empNumber: value
+    }));
+  };
+
+  searchClick = () => {
+    const search = this.state.empNumber;
+    fetch(`http://localhost:5000/employees/${search}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data =>
+        this.setState(() => ({
+          employeeInfo: [
+            `${data.payload.employee.firstName} ${
+              data.payload.employee.lastName
+            }`,
+            data.payload.employee.staffNumber,
+            data.payload.employee.department,
+            data.payload.employee.manager,
+            data.payload.employee._id,
+            false
+          ]
+        }))
+      );
+  };
+
+  managerSearchClick = () => {
+    const search = this.state.empNumber;
+    fetch(`http://localhost:5000/employees/${search}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data =>
+        this.setState(() => ({
+          searchedMan: `${data.payload.employee.firstName} ${
+            data.payload.employee.lastName
+          }`
+        }))
+      );
   };
 
   removeManager = idx => {
@@ -93,7 +168,6 @@ class Session extends Component {
     if (this.state.sessionId) {
       // save to current session
     }
-    let token = localStorage.getItem("Token");
     fetch(`http://localhost:5000/sessions`, {
       method: "POST",
       body: JSON.stringify({
@@ -110,7 +184,7 @@ class Session extends Component {
         userCreatedSession: new Date(),
         successionPlan: this.state.successionPlan,
         managerComments: this.state.managerComments,
-        owner: "5c9b8c8edb6aa3191c9d8e4e"
+        owner: this.state.employeeInfo[4]
       }),
       headers: {
         "Content-Type": "application/json",
@@ -139,11 +213,24 @@ class Session extends Component {
       <div className="container">
         <div className="topBox">
           <div className="employeeBox">
-            <SearchDialog />
-            <p>Employee Name:</p>
-            <p>Employee Number:</p>
-            <p>Dept:</p>
-            <p>Manager:</p>
+            {this.state.employeeInfo[5] ? (
+              <>
+                <p>Employee Name: {this.state.employeeInfo[0]}</p>
+                <p>Employee Number: {this.state.employeeInfo[1]}</p>
+                <p>Dept: {this.state.employeeInfo[2]}</p>
+                <p>Manager: {this.state.employeeInfo[3]}</p>
+              </>
+            ) : (
+              <SearchDialog
+                onChange={this.handleSearchChange}
+                onClick={this.searchClick}
+                employeeInfo={this.state.employeeInfo}
+                onOpen={this.handleSearchDialogOpen}
+                onClose={this.handleSearchDialogClose}
+                onOk={this.handleSearchOk}
+                isOpen={this.state.openSearchDialog}
+              />
+            )}
           </div>
           <div className="buttonBox">
             <Button onClick={this.save}>Save</Button>
@@ -198,13 +285,15 @@ class Session extends Component {
                 </button>
               </div>
             ))}
-            <Button
-              onClick={() => {
-                this.addManager("John Smith");
-              }}
-            >
-              Add Manager
-            </Button>
+            <AddManager
+              onChange={this.handleSearchChange}
+              onClick={this.managerSearchClick}
+              searchedMan={this.state.searchedMan}
+              onOpen={this.handleManDialogOpen}
+              onClose={this.handleManClose}
+              onOk={() => this.handleManOk(this.state.searchedMan)}
+              isOpen={this.state.openManDialog}
+            />
             <div className="resultBox">
               <p>{this.state.impactAve}</p>
               <p>{potAveConversion}</p>
