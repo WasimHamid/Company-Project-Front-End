@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import RadioSet from "../RadioSet";
 import EditHistory from "../EditHistory";
+import AddManager from "../AddManager";
 
 class Session extends Component {
   constructor(props) {
@@ -23,7 +24,9 @@ class Session extends Component {
       successionPlan: "",
       empNumber: "",
       employeeInfo: [],
-      openDialog: false
+      openSearchDialog: false,
+      openManDialog: false,
+      searchedMan: ""
     };
   }
 
@@ -45,19 +48,38 @@ class Session extends Component {
     }));
   };
 
-  handleDialogOpen = () => {
-    this.setState(() => ({ openDialog: true }));
+  handleSearchDialogOpen = () => {
+    this.setState(() => ({ openSearchDialog: true }));
   };
 
-  handleOk = () => {
+  handleSearchOk = () => {
     this.setState(state => ({
       employeeInfo: [...state.employeeInfo.slice(0, 5), true],
-      openDialog: false
+      openSearchDialog: false
     }));
   };
 
-  handleDialogClose = () => {
-    this.setState(() => ({ openDialog: false }));
+  handleSearchDialogClose = () => {
+    this.setState(() => ({ openSearchDialog: false }));
+  };
+
+  handleManDialogOpen = () => {
+    this.setState(() => ({ openManDialog: true }));
+  };
+
+  handleManOk = name => {
+    this.setState(state => ({
+      managers: [...state.managers, name],
+      impact: [...state.impact, null],
+      potCat: [...state.potCat, null],
+      potScore: [...state.potScore, null],
+      openManDialog: false,
+      searchedMan: ""
+    }));
+  };
+
+  handleManClose = () => {
+    this.setState(() => ({ openManDialog: false }));
   };
 
   handleSearchChange = event => {
@@ -89,13 +111,19 @@ class Session extends Component {
       );
   };
 
-  addManager = toAdd => {
-    this.setState(state => ({
-      managers: [...state.managers, toAdd],
-      impact: [...state.impact, null],
-      potCat: [...state.potCat, null],
-      potScore: [...state.potScore, null]
-    }));
+  managerSearchClick = () => {
+    const search = this.state.empNumber;
+    fetch(`http://localhost:5000/employees/${search}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data =>
+        this.setState(() => ({
+          searchedMan: `${data.payload.employee.firstName} ${
+            data.payload.employee.lastName
+          }`
+        }))
+      );
   };
 
   removeManager = idx => {
@@ -197,10 +225,10 @@ class Session extends Component {
                 onChange={this.handleSearchChange}
                 onClick={this.searchClick}
                 employeeInfo={this.state.employeeInfo}
-                onOpen={this.handleDialogOpen}
-                onClose={this.handleDialogClose}
-                onOk={this.handleOk}
-                isOpen={this.state.openDialog}
+                onOpen={this.handleSearchDialogOpen}
+                onClose={this.handleSearchDialogClose}
+                onOk={this.handleSearchOk}
+                isOpen={this.state.openSearchDialog}
               />
             )}
           </div>
@@ -257,13 +285,15 @@ class Session extends Component {
                 </button>
               </div>
             ))}
-            <Button
-              onClick={() => {
-                this.addManager("John Smith");
-              }}
-            >
-              Add Manager
-            </Button>
+            <AddManager
+              onChange={this.handleSearchChange}
+              onClick={this.managerSearchClick}
+              searchedMan={this.state.searchedMan}
+              onOpen={this.handleManDialogOpen}
+              onClose={this.handleManClose}
+              onOk={() => this.handleManOk(this.state.searchedMan)}
+              isOpen={this.state.openManDialog}
+            />
             <div className="resultBox">
               <p>{this.state.impactAve}</p>
               <p>{potAveConversion}</p>
