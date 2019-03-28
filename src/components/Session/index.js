@@ -7,8 +7,15 @@ import TextField from "@material-ui/core/TextField";
 import RadioSet from "../RadioSet";
 import EditHistory from "../EditHistory";
 import AddManager from "../AddManager";
+import PieChart from "../PieChart";
 
 import css from "./Session.module.css";
+
+const scoreKeys = [
+  { label: "impact", amount: 3 },
+  { label: "potCat", amount: 3 },
+  { label: "potScore", amount: 5 }
+];
 
 class Session extends Component {
   constructor(props) {
@@ -39,8 +46,8 @@ class Session extends Component {
     }));
   };
 
-  handleRadioChange = (event, scoreCat, arrPos) => {
-    const { value } = event.target;
+  handleRadioChange = (value, scoreCat, arrPos) => {
+    console.log("radio change", value);
     this.setState(state => ({
       [scoreCat]: [
         ...state[scoreCat].slice(0, arrPos),
@@ -267,33 +274,49 @@ class Session extends Component {
               <h2>Potential Category</h2>
               <h2>Potential Score</h2>
             </div>
+            <br />
             <div className={css.labels}>
-              {" "}
-              1 2 3 Team Functional Organisational 1 2 3 4 5
-            </div>{" "}
+              <p>1 2 3 </p>
+              <p>T F O </p>
+              <p>1 2 3 4 5</p>
+            </div>
+            <br />
             {this.state.managers.map((manager, idx) => (
               <div className={css.radioBox}>
-                <RadioSet
-                  amount={3}
-                  onSelect={event =>
-                    this.handleRadioChange(event, "impact", idx)
-                  }
-                  checked={this.state.impact[idx]}
-                />
-                <RadioSet
-                  amount={3}
-                  onSelect={event =>
-                    this.handleRadioChange(event, "potCat", idx)
-                  }
-                  checked={this.state.potCat[idx]}
-                />
-                <RadioSet
-                  amount={5}
-                  onSelect={event =>
-                    this.handleRadioChange(event, "potScore", idx)
-                  }
-                  checked={this.state.potScore[idx]}
-                />
+                {scoreKeys.map(({ label, amount }) =>
+                  label === "potCat" ? (
+                    <RadioSet
+                      amount={amount}
+                      onSelect={event =>
+                        this.handleRadioChange(event.target.value, label, idx)
+                      }
+                      checked={this.state[label][idx]}
+                    />
+                  ) : (
+                    <div>
+                      {Array(amount)
+                        .fill(0)
+                        .map((_, starIdx) => (
+                          <span
+                            key={starIdx}
+                            role="img"
+                            aria-label="star"
+                            onClick={event =>
+                              this.handleRadioChange(starIdx + 1, label, idx)
+                            }
+                            className={`${css.star} ${
+                              starIdx < this.state[label][idx]
+                                ? css.rating
+                                : css.unrated
+                            }`}
+                          >
+                            ⭐
+                          </span>
+                        ))}
+                    </div>
+                  )
+                )}
+
                 <button
                   variant="contained"
                   onClick={() => {
@@ -321,16 +344,17 @@ class Session extends Component {
             <Button variant="contained" onClick={this.calcAverage}>
               Calculate Averages
             </Button>
+            <br />
             <div className={css.resultBox}>
-              {/* <div>
-                    <PieChart values={this.state.impact} />
-                  </div>
-                  <div>
-                    <PieChart values={this.state.potCat} />
-                  </div>
-                  <div>
-                    <PieChart values={this.state.potScore} />
-                  </div> */}
+              <div>
+                <PieChart values={this.state.impact} />
+              </div>
+              <div>
+                <PieChart values={this.state.potCat} />
+              </div>
+              <div>
+                <PieChart values={this.state.potScore} />
+              </div>
             </div>
           </div>
         </div>

@@ -1,10 +1,16 @@
 body {
-  /* background-color: #deecf1; */
   margin: 0;
   padding: 0;
   font-family: "Open Sans", sans-serif;
-  /* -webkit-font-smoothing: antialiased; */
-  /* -moz-osx-font-smoothing: grayscale; */
+}
+
+.star {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.unrated {
+  opacity: 0.5;
 }
 
 .container {
@@ -43,11 +49,6 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-.labels {
-  font-family: "Open Sans", sans-serif;
-  font-size: 15px;
-}
-
 .scoreSection {
   width: 80vw;
   height: 90vh;
@@ -61,11 +62,16 @@ body {
   height: 90vh;
   padding-top: 10vh;
   font-family: "Open Sans", sans-serif;
+  font-size: 1.2rem;
+}
+
+.managerList p {
+  padding: 13px 0px 13px 4px;
 }
 
 .titleBox {
   width: 80vw;
-  height: 10vh;
+  height: 5vh;
   display: flex;
   flex-direction: row;
   font-family: "Open Sans", sans-serif;
@@ -73,8 +79,22 @@ body {
 
 .titleBox h2 {
   width: 26vw;
-  height: 10vh;
+  height: 5vh;
   font-family: "Open Sans", sans-serif;
+}
+
+.labels {
+  width: 80vw;
+  height: 3vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.labels p {
+  width: 26vw;
+  height: 3vh;
+  letter-spacing: 0.5em;
+  padding: 0px 3px;
 }
 
 .radioBox {
@@ -104,8 +124,7 @@ body {
 
 .resultBox div {
   width: 26vw;
-  height: 10vh;
-  border: 1px solid black;
+  height: 15vh;
   font-family: "Open Sans", sans-serif;
 }
 

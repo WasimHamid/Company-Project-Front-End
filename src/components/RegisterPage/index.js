@@ -1,6 +1,8 @@
 import React from "react";
-import Fab from "@material-ui/core/Fab";
+import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+
+import css from "./RegisterPage.module.css";
 
 const API = "http://localhost:5000";
 
@@ -35,41 +37,45 @@ class RegisterPage extends React.Component {
   render() {
     const { email, password } = this.state;
     return (
-      <div className="outside">
-        <form onSubmit={this.handleSubmit}>
-          <label>Register here:</label>
-          <TextField
-            margin="normal"
-            variant="outlined"
-            id="email"
-            value={email}
-            placeholder="Enter Email"
-            name="email"
-            type="email"
-            onChange={this.onChange}
-          />
-          <TextField
-            margin="normal"
-            variant="outlined"
-            id="password"
-            value={password}
-            placeholder="Enter Password"
-            name="password"
-            type="password"
-            onChange={this.onChange}
-          />
+      <>
+        <h1 className={css.header}>Register</h1>
+        <br />
 
-          <Fab
-            type="submit"
-            variant="extended"
-            size="medium"
-            color="primary"
-            aria-label="Add"
-          >
-            Sign Up
-          </Fab>
-        </form>
-      </div>
+        <h3 className={css.smallHeader}>Enter Your Details Here To Register</h3>
+        <div className={css.formContainer}>
+          <form onSubmit={this.handleSubmit}>
+            <TextField
+              margin="normal"
+              variant="outlined"
+              id="email"
+              value={email}
+              placeholder="Enter Email"
+              name="email"
+              type="email"
+              onChange={this.onChange}
+            />
+            <TextField
+              margin="normal"
+              variant="outlined"
+              id="password"
+              value={password}
+              placeholder="Enter Password"
+              name="password"
+              type="password"
+              onChange={this.onChange}
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              size="medium"
+              aria-label="Add"
+            >
+              Sign Up
+            </Button>
+          </form>
+        </div>
+      </>
     );
   }
 }

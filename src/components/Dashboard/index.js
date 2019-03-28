@@ -26,12 +26,7 @@ class Dashboard extends Component {
     return (
       <div className="Dashboard">
         <Link to="/login">
-          <Button
-            variant="contained"
-            size="large"
-            color="secondary"
-            onClick={this.logout}
-          >
+          <Button variant="contained" size="large" onClick={this.logout}>
             Logout
           </Button>
         </Link>
