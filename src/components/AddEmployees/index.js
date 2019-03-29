@@ -62,6 +62,7 @@ class AddEmployees extends React.Component {
             name="staffNumber"
             onChange={this.onChange}
           />
+          <br />
 
           <TextField
             margin="normal"
@@ -72,6 +73,7 @@ class AddEmployees extends React.Component {
             name="firstName"
             onChange={this.onChange}
           />
+          <br />
 
           <TextField
             margin="normal"
@@ -82,6 +84,7 @@ class AddEmployees extends React.Component {
             name="lastName"
             onChange={this.onChange}
           />
+          <br />
 
           <TextField
             margin="normal"
@@ -93,6 +96,7 @@ class AddEmployees extends React.Component {
             type="email"
             onChange={this.onChange}
           />
+          <br />
 
           <TextField
             margin="normal"
@@ -103,6 +107,7 @@ class AddEmployees extends React.Component {
             name="department"
             onChange={this.onChange}
           />
+          <br />
 
           <TextField
             margin="normal"
@@ -112,6 +117,7 @@ class AddEmployees extends React.Component {
             name="manager"
             onChange={this.onChange}
           />
+          <br />
 
           <Button
             type="submit"
@@ -122,6 +128,7 @@ class AddEmployees extends React.Component {
             Add Employee
           </Button>
         </form>
+        <br />
         <Link to="/">
           <Button variant="contained">Return to Previous Page</Button>
         </Link>
