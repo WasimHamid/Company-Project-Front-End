@@ -12,7 +12,7 @@ class SearchDialog extends Component {
     return (
       <>
         <Button variant="contained" onClick={this.props.onOpen}>
-          Add Employee
+          Select Employee
         </Button>
         <Dialog
           open={this.props.isOpen}
@@ -34,7 +34,7 @@ class SearchDialog extends Component {
               type="search"
             />
             <p>{this.props.employeeInfo[0]}</p>
-            <Button color="primary" onClick={this.props.onClick}>
+            <Button disabled={!this.props.empNumber} color="primary" onClick={this.props.onClick}>
               Search
             </Button>
           </DialogContent>

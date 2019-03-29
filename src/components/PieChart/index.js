@@ -37,13 +37,13 @@ const PieChart = ({ values }) => {
   /// this variable Pie Chart takes values. Whereas before it could take in an array.
   /// this change from a class with own state to a variables that it inherits
   /// it's also a function now.  TODO: Why is it a function?
-  console.log(values);
+  // console.log(values);
 
   const sortedUniques = [...new Set(values)].sort((a, b) => a - b); /// here the variable is the sorted scores from the array. Sorted Uniques. Set is a way of dealing with an array of these values.
-  console.log(sortedUniques);
+  // console.log(sortedUniques);
 
   const numberOfTotals = sortedUniques[sortedUniques.length - 1]; // sort so that if a score is not given it doesn't break the code.
-  console.log(numberOfTotals);
+  // console.log(numberOfTotals);
 
   const count = values.reduce(
     // gives back a new array where the score is maps to the index number. you have to take one away so that it is mapped from idx 0.
@@ -62,7 +62,7 @@ const PieChart = ({ values }) => {
     return { title: idx + 1, value: value || 0, color: colours[idx] };
   });
 
-  console.log(data);
+  // console.log(data);
   return <Chart data={data} style={{ height: "20vh" }} />;
 };
 

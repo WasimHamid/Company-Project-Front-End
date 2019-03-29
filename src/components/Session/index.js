@@ -39,6 +39,66 @@ class Session extends Component {
     };
   }
 
+  calcAverage = () => {
+    this.setState(() => ({
+      impactAve: Math.ceil(
+        this.state.impact.reduce((total, amount) => {
+          total += amount;
+          return total / this.state.impact.length;
+        }, 0)
+      ),
+      potCatAve: Math.ceil(
+        this.state.potCat.reduce((total, amount) => {
+          total += amount;
+          return total / this.state.potCat.length;
+        }, 0)
+      ),
+      potScoreAve: Math.ceil(
+        this.state.potScore.reduce((total, amount) => {
+          total += amount;
+          return total / this.state.potScore.length;
+        }, 0)
+      )
+    }));
+  };
+
+  selectPrevSession = () => {
+    fetch(`http://localhost:5000/sessions/${this.props.match.params.id}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data =>
+        {
+        this.setState(() => ({
+          impact: data.payload.session.impact,
+          potCat: data.payload.session.potentialCategory,
+          potScore: data.payload.session.potential,
+          managers: data.payload.session.managers,
+          impactAve: data.payload.session.overallImpact,
+          potCatAve: data.payload.session.overallPotentialCategory,
+          potScoreAve: data.payload.session.overallPotential,
+          managerComments: data.payload.session.managerComments,
+          successionPlan: data.payload.session.successionPlan,
+        }))}
+      ).then(() => this.calcAverage())
+  };
+
+
+  componentDidMount = () => {
+    if(this.props.match.params.id) {
+      this.selectPrevSession()
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    let oldId = prevProps.match.params.id;
+    let newId = this.props.match.params.id;
+    if(newId && newId !== oldId) {
+      this.selectPrevSession()
+    }
+  }
+
+  
   handleCommentChange = (event, key) => {
     const { value } = event.target;
     this.setState(() => ({
@@ -47,7 +107,6 @@ class Session extends Component {
   };
 
   handleRadioChange = (value, scoreCat, arrPos) => {
-    console.log("radio change", value);
     this.setState(state => ({
       [scoreCat]: [
         ...state[scoreCat].slice(0, arrPos),
@@ -58,7 +117,7 @@ class Session extends Component {
   };
 
   handleSearchDialogOpen = () => {
-    this.setState(() => ({ openSearchDialog: true }));
+    this.setState(() => ({ openSearchDialog: true, empNumber: "" }));
   };
 
   handleSearchOk = () => {
@@ -73,7 +132,7 @@ class Session extends Component {
   };
 
   handleManDialogOpen = () => {
-    this.setState(() => ({ openManDialog: true }));
+    this.setState(() => ({ openManDialog: true, empNumber: "" }));
   };
 
   handleManOk = name => {
@@ -150,29 +209,6 @@ class Session extends Component {
     }));
   };
 
-  calcAverage = () => {
-    this.setState(() => ({
-      impactAve: Math.ceil(
-        this.state.impact.reduce((total, amount) => {
-          total += amount;
-          return total / this.state.impact.length;
-        }, 0)
-      ),
-      potCatAve: Math.ceil(
-        this.state.potCat.reduce((total, amount) => {
-          total += amount;
-          return total / this.state.potCat.length;
-        }, 0)
-      ),
-      potScoreAve: Math.ceil(
-        this.state.potScore.reduce((total, amount) => {
-          total += amount;
-          return total / this.state.potScore.length;
-        }, 0)
-      )
-    }));
-  };
-
   save = () => {
     if (this.state.sessionId) {
       // save to current session
@@ -238,6 +274,7 @@ class Session extends Component {
                 onClose={this.handleSearchDialogClose}
                 onOk={this.handleSearchOk}
                 isOpen={this.state.openSearchDialog}
+                empNumber={this.state.empNumber}
               />
             )}
           </div>
@@ -248,7 +285,7 @@ class Session extends Component {
             <br />
             <br />
             <Button variant="contained" sessionId={this.state.sessionId}>
-              Edit Session
+              View Edit Log
             </Button>
             <br />
             <br />
@@ -335,6 +372,7 @@ class Session extends Component {
               onClose={this.handleManClose}
               onOk={() => this.handleManOk(this.state.searchedMan)}
               isOpen={this.state.openManDialog}
+              empNumber={this.state.empNumber}
             />
             <div className={css.resultBox}>
               <p>{this.state.impactAve}</p>
