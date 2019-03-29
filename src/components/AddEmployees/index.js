@@ -14,12 +14,7 @@ class AddEmployees extends React.Component {
       lastName: "",
       email: "",
       department: "",
-      manager: "",
-      accessLevel: "",
-      dateLastReviewed: "",
-      previousImpactScores: "",
-      previousPotentialCategoryScores: "",
-      previousPotentialScore: ""
+      manager: ""
     };
   }
 
@@ -37,13 +32,7 @@ class AddEmployees extends React.Component {
         lastName: this.state.lastName,
         email: this.state.email,
         department: this.state.department,
-        manager: this.state.manager,
-        accessLevel: this.state.accessLevel,
-        dateLastReviewed: this.state.dateLastReviewed,
-        previousImpactScores: this.state.previousImpactScores,
-        previousPotentialCategoryScores: this.state
-          .previousPotentialCategoryScores,
-        previousPotentialScore: this.state.previousPotentialScore
+        manager: this.state.manager
       })
     });
   };
@@ -59,12 +48,7 @@ class AddEmployees extends React.Component {
       lastName,
       email,
       department,
-      manager,
-      accessLevel,
-      dateLastReviewed,
-      previousImpactScores,
-      previousPotentialCategoryScores,
-      previousPotentialScore
+      manager
     } = this.state;
     return (
       <>
@@ -129,47 +113,6 @@ class AddEmployees extends React.Component {
             onChange={this.onChange}
           />
 
-          <TextField
-            margin="normal"
-            variant="outlined"
-            value={accessLevel}
-            placeholder="Enter accessLevel"
-            name="accessLevel"
-            onChange={this.onChange}
-          />
-
-          <TextField
-            margin="normal"
-            variant="outlined"
-            value={dateLastReviewed}
-            placeholder="Enter the date last Reviewed"
-            name="dateLastReviewed"
-            onChange={this.onChange}
-          />
-          <TextField
-            margin="normal"
-            variant="outlined"
-            value={previousImpactScores}
-            placeholder="previous Impact Score"
-            name="previousImpactScores"
-            onChange={this.onChange}
-          />
-          <TextField
-            margin="normal"
-            variant="outlined"
-            value={previousPotentialScore}
-            placeholder="Previous Potential Score"
-            name="previousPotentialScore"
-            onChange={this.onChange}
-          />
-          <TextField
-            margin="normal"
-            variant="outlined"
-            value={previousPotentialCategoryScores}
-            placeholder="Previous Potential Category Scores"
-            name="previousPotentialCategoryScores"
-            onChange={this.onChange}
-          />
           <Button
             type="submit"
             variant="contained"
