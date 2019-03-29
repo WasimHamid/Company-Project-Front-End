@@ -40,10 +40,14 @@ class NewSession extends Component {
       <div classNames={Styles.topbox}>
         <div className="App">
           <header className="App-header">
-            <h1 className={Styles.welcomeHeading}> Welcome </h1>
+            <h1 className={Styles.welcomeHeading}>
+              {" "}
+              Welcome to the Santander Talent Review System{" "}
+            </h1>
+            <br />
             <p class={Styles.font}>
               {" "}
-              Start a new Talent Review Session or load a previous one.
+              Click here to start a new talent review session
             </p>
 
             <Button
@@ -58,43 +62,64 @@ class NewSession extends Component {
             </Button>
             <br />
 
+            <p>Click here to view or amend a previous talent review session</p>
+
             <Button variant="contained" onClick={this.props.onOpen}>
-          Load Previous Session
-        </Button>
-        <Dialog
-          open={this.props.isOpen}
-          onClose={this.props.onClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Session Search</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Input the employee number and click search to find all sessions linked to an employee
-            </DialogContentText>
-            <TextField
-              autoFocus
-              onChange={this.props.onChange}
-              margin="dense"
-              id="search"
-              label="Employee Number"
-              type="search"
-            />
-            {this.props.sessionArr && this.props.sessionArr.map((session) => {
-              return <li>{session.date} 
-              <Link to={`/session/${session.id}`}><Button onClick={this.props.onClose}>Select</Button></Link>
-              </li>
-              }) 
-            }
-            <Button disabled={!this.props.empNumber} color="primary" onClick={this.props.onClick}>
-              Search
+              Load Previous Session
             </Button>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.props.onClose} color="primary">
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
+            <br />
+
+            <p>Click here to add a new Employee</p>
+
+            <Link to="/addemployees">
+              <Button variant="contained" size="large">
+                Add Employees
+              </Button>
+            </Link>
+            <Dialog
+              open={this.props.isOpen}
+              onClose={this.props.onClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Session Search</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Input the employee number and click search to find all
+                  sessions linked to an employee
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  onChange={this.props.onChange}
+                  margin="dense"
+                  id="search"
+                  label="Employee Number"
+                  type="search"
+                />
+                {this.props.sessionArr &&
+                  this.props.sessionArr.map(session => {
+                    return (
+                      <li>
+                        {session.date}
+                        <Link to={`/session/${session.id}`}>
+                          <Button onClick={this.props.onClose}>Select</Button>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                <Button
+                  disabled={!this.props.empNumber}
+                  color="primary"
+                  onClick={this.props.onClick}
+                >
+                  Search
+                </Button>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.props.onClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
           </header>
         </div>
       </div>

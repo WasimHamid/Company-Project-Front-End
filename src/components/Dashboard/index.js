@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
+import AddEmployees from "../AddEmployees";
+
 import NewSessions from "../NewSessions";
 import Session from "../Session";
 
@@ -20,7 +22,11 @@ class Dashboard extends Component {
   }
 
   handleSearchDialogOpen = () => {
-    this.setState(() => ({ openSearchDialog: true, sessionArr: [], empNumber: "" }));
+    this.setState(() => ({
+      openSearchDialog: true,
+      sessionArr: [],
+      empNumber: ""
+    }));
   };
 
   handleSearchDialogClose = () => {
@@ -40,26 +46,30 @@ class Dashboard extends Component {
       .then(res => {
         return res.json();
       })
-      .then(data =>
-        {let mappedArr = data.payload.sessionsHistory.map((obj) => {return {id: obj.sessionId, date: new Date(obj.createdAt).toDateString()}});
+      .then(data => {
+        let mappedArr = data.payload.sessionsHistory.map(obj => {
+          return {
+            id: obj.sessionId,
+            date: new Date(obj.createdAt).toDateString()
+          };
+        });
         this.setState(() => ({
           sessionArr: mappedArr
-        }))}
-      );
+        }));
+      });
   };
 
-  selectPrevSession = (sessionId) => {
+  selectPrevSession = sessionId => {
     const searchSession = sessionId;
     fetch(`http://localhost:5000/sessions/${searchSession}`)
       .then(res => {
         return res.json();
       })
-      .then(data =>
-        {
+      .then(data => {
         this.setState(() => ({
           selectedSession: data.payload.session
-        }))}
-      );
+        }));
+      });
   };
 
   logout = () => {
@@ -78,17 +88,26 @@ class Dashboard extends Component {
           </Button>
         </Link>
         <Switch>
-          <Route exact path="/" render={routerProps => <NewSessions {...routerProps} 
+          <Route
+            exact
+            path="/"
+            render={routerProps => (
+              <NewSessions
+                {...routerProps}
                 onChange={this.handleSearchChange}
                 onClick={this.searchClick}
                 onOpen={this.handleSearchDialogOpen}
                 onClose={this.handleSearchDialogClose}
-                isOpen={this.state.openSearchDialog} 
-                sessionArr={this.state.sessionArr} 
+                isOpen={this.state.openSearchDialog}
+                sessionArr={this.state.sessionArr}
                 empNumber={this.state.empNumber}
                 sessionSelect={this.selectPrevSession}
-                />} />
+              />
+            )}
+          />
           <Route exact path="/new" component={Session} />
+
+          <Route exact path="/addemployees" render={() => <AddEmployees />} />
 
           <Route exact path="/session/:id" component={Session} />
         </Switch>

@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { Link } from "react-router-dom";
 
 import css from "./RegisterPage.module.css";
 
@@ -74,6 +75,9 @@ class RegisterPage extends React.Component {
               Sign Up
             </Button>
           </form>
+          <Link to="/login">
+            <Button variant="contained">Return to Login Page</Button>
+          </Link>
         </div>
       </>
     );
