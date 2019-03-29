@@ -35,7 +35,8 @@ class Session extends Component {
       employeeInfo: [],
       openSearchDialog: false,
       openManDialog: false,
-      searchedMan: ""
+      searchedMan: "",
+      sessionOwner: ""
     };
   }
 
@@ -67,8 +68,7 @@ class Session extends Component {
       .then(res => {
         return res.json();
       })
-      .then(data =>
-        {
+      .then(data => {
         this.setState(() => ({
           impact: data.payload.session.impact,
           potCat: data.payload.session.potentialCategory,
@@ -79,26 +79,48 @@ class Session extends Component {
           potScoreAve: data.payload.session.overallPotential,
           managerComments: data.payload.session.managerComments,
           successionPlan: data.payload.session.successionPlan,
-        }))}
-      ).then(() => this.calcAverage())
+          sessionOwner: data.payload.session.owner
+        }));
+      })
+      .then(() => this.updateEmployeeInfo())
+      .then(() => this.calcAverage());
   };
 
+  updateEmployeeInfo = () => {
+    fetch(`http://localhost:5000/employees/owner/${this.state.sessionOwner}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        this.setState(() => ({
+          employeeInfo: [
+            `${data.payload.employee.firstName} ${
+              data.payload.employee.lastName
+            }`,
+            data.payload.employee.staffNumber,
+            data.payload.employee.department,
+            data.payload.employee.manager,
+            data.payload.employee._id,
+            true
+          ]
+        }));
+      });
+  };
 
   componentDidMount = () => {
-    if(this.props.match.params.id) {
-      this.selectPrevSession()
+    if (this.props.match.params.id) {
+      this.selectPrevSession();
     }
-  }
+  };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = prevProps => {
     let oldId = prevProps.match.params.id;
     let newId = this.props.match.params.id;
-    if(newId && newId !== oldId) {
-      this.selectPrevSession()
+    if (newId && newId !== oldId) {
+      this.selectPrevSession();
     }
-  }
+  };
 
-  
   handleCommentChange = (event, key) => {
     const { value } = event.target;
     this.setState(() => ({
@@ -403,6 +425,7 @@ class Session extends Component {
               label="Manager Comments"
               multiline
               rows="4"
+              value={this.state.managerComments || ""}
               onChange={event => {
                 this.handleCommentChange(event, "managerComments");
               }}
@@ -414,6 +437,7 @@ class Session extends Component {
               label="Succession Plan"
               multiline
               rows="4"
+              value={this.state.successionPlan || ""}
               onChange={event => {
                 this.handleCommentChange(event, "successionPlan");
               }}
