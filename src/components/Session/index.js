@@ -45,20 +45,20 @@ class Session extends Component {
       impactAve: Math.ceil(
         this.state.impact.reduce((total, amount) => {
           total += amount;
-          return total / this.state.impact.length;
-        }, 0)
+          return total;
+        }, 0) / this.state.impact.length
       ),
       potCatAve: Math.ceil(
         this.state.potCat.reduce((total, amount) => {
           total += amount;
-          return total / this.state.potCat.length;
-        }, 0)
+          return total;
+        }, 0) / this.state.potCat.length
       ),
       potScoreAve: Math.ceil(
         this.state.potScore.reduce((total, amount) => {
           total += amount;
-          return total / this.state.potScore.length;
-        }, 0)
+          return total;
+        }, 0) / this.state.potScore.length
       )
     }));
   };
