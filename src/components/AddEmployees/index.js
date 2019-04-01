@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 
-const API = "http://localhost:5000";
+const API = process.env.REACT_APP_API_URL;
 
 class AddEmployees extends React.Component {
   constructor(props) {

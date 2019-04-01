@@ -9,6 +9,8 @@ import Session from "../Session";
 
 import "./Dashboard.css";
 
+const API = process.env.REACT_APP_API_URL;
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +44,7 @@ class Dashboard extends Component {
 
   searchClick = () => {
     const search = this.state.empNumber;
-    fetch(`http://localhost:5000/employees/${search}?sessions=true`)
+    fetch(`${API}/employees/${search}?sessions=true`)
       .then(res => {
         return res.json();
       })
@@ -61,7 +63,7 @@ class Dashboard extends Component {
 
   selectPrevSession = sessionId => {
     const searchSession = sessionId;
-    fetch(`http://localhost:5000/sessions/${searchSession}`)
+    fetch(`${API}/sessions/${searchSession}`)
       .then(res => {
         return res.json();
       })

@@ -5,7 +5,7 @@ import Login from "../Login";
 import RegisterPage from "../RegisterPage";
 import Dashboard from "../Dashboard";
 
-const API = "http://localhost:5000";
+const API = process.env.REACT_APP_API_URL;
 
 class App extends Component {
   constructor(props) {

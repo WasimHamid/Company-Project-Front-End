@@ -6,6 +6,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
+const API = process.env.REACT_APP_API_URL;
+
 class ScrollDialog extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +18,7 @@ class ScrollDialog extends React.Component {
   }
 
   handleClickOpen = scroll => () => {
-    fetch("http://localhost:5000/sessions");
+    fetch(`${API}/sessions`);
     this.setState({ open: true, scroll });
   };
 

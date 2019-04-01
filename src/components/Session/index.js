@@ -11,6 +11,8 @@ import PieChart from "../PieChart";
 
 import css from "./Session.module.css";
 
+const API = process.env.REACT_APP_API_URL;
+
 const scoreKeys = [
   { label: "impact", amount: 3 },
   { label: "potCat", amount: 3 },
@@ -64,7 +66,7 @@ class Session extends Component {
   };
 
   selectPrevSession = () => {
-    fetch(`http://localhost:5000/sessions/${this.props.match.params.id}`)
+    fetch(`${API}/sessions/${this.props.match.params.id}`)
       .then(res => {
         return res.json();
       })
@@ -87,7 +89,7 @@ class Session extends Component {
   };
 
   updateEmployeeInfo = () => {
-    fetch(`http://localhost:5000/employees/owner/${this.state.sessionOwner}`)
+    fetch(`${API}/employees/owner/${this.state.sessionOwner}`)
       .then(res => {
         return res.json();
       })
@@ -181,7 +183,7 @@ class Session extends Component {
 
   searchClick = () => {
     const search = this.state.empNumber;
-    fetch(`http://localhost:5000/employees/${search}`)
+    fetch(`${API}/employees/${search}`)
       .then(res => {
         return res.json();
       })
@@ -203,7 +205,7 @@ class Session extends Component {
 
   managerSearchClick = () => {
     const search = this.state.empNumber;
-    fetch(`http://localhost:5000/employees/${search}`)
+    fetch(`${API}/employees/${search}`)
       .then(res => {
         return res.json();
       })
@@ -235,7 +237,7 @@ class Session extends Component {
     if (this.state.sessionId) {
       // save to current session
     }
-    fetch(`http://localhost:5000/sessions`, {
+    fetch(`${API}/sessions`, {
       method: "POST",
       body: JSON.stringify({
         sessionId: 328492,
